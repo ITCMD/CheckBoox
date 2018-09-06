@@ -5518,6 +5518,8 @@ if exist Balance.txt (
 	title ITCMD Checkbook Program   [Closed]
 )
 if not exist Balance.txt goto open
+if not exist Owe.txt echo.>Owe.txt
+if not exist Due.txt echo.>Due.txt
 set num=0
 for /f "tokens=*" %%A in (Balance.txt) do (set /a num+=1)
 set /a num-=1
@@ -5576,14 +5578,14 @@ cls
 call :c 07 "Saving File . . ."
 call :c 07 "Closing File . . ."
 certutil -encode "balance.txt" "bal.ctu" >nul
-certutil -encode "Owe.txt" "Owe.ctu" >nul
-certutil -encode "Due.txt" "Due.ctu" >nul
+certutil -encode "Owe.txt" "Owe.ctu" >nul 2>nul
+certutil -encode "Due.txt" "Due.ctu" >nul 2>nul
 attrib +h bal.ctu
-attrib +h owe.ctu
-attrib +h due.ctu
+attrib +h owe.ctu 2>nul
+attrib +h due.ctu 2>nul
 del /f /q balance.txt
-del /f /q due.txt
-del /f /q owe.txt
+del /f /q due.txt 2>nul
+del /f /q owe.txt 2>nul
 call :c 0a "Completed."
 	title ITCMD Checkbook Program   [Closed]
 pause
@@ -5842,7 +5844,7 @@ call :c 0c " This will cancel your payment without taking it from your account."
 echo Are you sure you wish to do this?
 choice
 if %errorlevel%==2 goto owe
-findstr /V /c:"set amounts=!amounts%cho%!~set by=!by%cho%!~set to=!to%cho%!" "out.txt" >NewOwe.txt
+findstr /V /c:"set amounts=!amounts%cho%!~set by=!by%cho%!~set to=!to%cho%!" "owe.txt" >NewOwe.txt
 del /f /q Owe.txt
 ren NewOwe.txt Owe.txt
 call :c 0a "Line Deleted."
@@ -6112,14 +6114,14 @@ call :c 0a "Password Correct."
 cls
 call :c 07 "Opening File . . ."
 attrib -h bal.ctu >nul
-attrib -h owe.ctu >nul
-attrib -h due.ctu >nul
+attrib -h owe.ctu >nul 2>nul
+attrib -h due.ctu >nul 2>nul
 certutil -decode "bal.ctu" "balance.txt" >nul
-certutil -decode "Owe.ctu" "Owe.txt" >nul
-certutil -decode "Due.ctu" "Due.txt" >nul
+certutil -decode "Owe.ctu" "Owe.txt" >nul 2>nul
+certutil -decode "Due.ctu" "Due.txt" >nul 2>nul
 del /f /q bal.ctu
-del /f /q owe.ctu
-del /f /q due.ctu
+del /f /q owe.ctu 2>nul
+del /f /q due.ctu 2>nul
 call :c 0a "Complete."
 timeout /t 1 >nul
 goto top
