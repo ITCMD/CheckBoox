@@ -15,7 +15,7 @@ While our code is 100% open source, there are two tools we use that are not open
 - KbD.exe (An abandoned IBM command prompt tool)
   Use: Allows us to read arrow and Esc keys
 - Icalc.exe
-  use: Allows us to calculate decimals and handle advanced math
+  Use: Allows us to calculate decimals and handle advanced math
   
 We trust these two programs however we have no way of making them open-source. Thanks for your understanding.
 Both files are read as relatively clean on VirusTotal.
